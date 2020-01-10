@@ -87,6 +87,13 @@ public class TicketDAO {
         return false;
     }
 
+    /**
+     * Indicates if a vehicle has already come in the parking, and so if the user is a recurring one
+     * Added for the discount feature
+     *
+     * @param vehicleRegNumber the vehicle Reg Number
+     * @return true if the vehicle has already come, false else
+     */
     public boolean isRecurringUser(String vehicleRegNumber){
         Connection con = null;
         int numberTicketsVehicle = 0;
