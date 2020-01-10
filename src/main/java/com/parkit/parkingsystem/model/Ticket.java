@@ -3,6 +3,25 @@ package com.parkit.parkingsystem.model;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * <b>Ticket describes the ticket object</b>
+ * <p>
+ * A ticket contains :
+ * <ul>
+ *     <li>An id</li>
+ *     <li>A parking spot object</li>
+ *     <li>The vehicle license plate number</li>
+ *     <li>The price of the ticket (wich will be 0 when the vehicle enters in the parking)</li>
+ *     <li>The Date when the vehicle enters</li>
+ *     <li>The Date when the vehicle exits</li>
+ *     <li>The discount applied (for reccuring users) - Feature added 01-10-2020</li>
+ * </ul>
+ * </p>
+ *
+ * @author Cyril Lepretre
+ * @version 2.0
+ */
+
 public class Ticket {
     private int id;
     private ParkingSpot parkingSpot;
@@ -10,6 +29,7 @@ public class Ticket {
     private double price;
     private Date inTime;
     private Date outTime;
+    private double discount;
 
     public int getId() {
         return id;
@@ -58,4 +78,8 @@ public class Ticket {
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
     }
+
+    public double getDiscount() { return discount; }
+
+    public void setDiscount(double discount) {this.discount = discount;}
 }
