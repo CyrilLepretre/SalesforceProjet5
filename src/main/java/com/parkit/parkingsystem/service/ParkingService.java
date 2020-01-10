@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem.service;
 
+import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -27,11 +28,29 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
+    /**
+     * Process of incoming vehicles
+     * Feature added on 01/10/2020 : controls if it's a reccurent user in order to display a message for a discount
+     *
+     */
+
     public void processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
+
+                // Add a specific message if it's a reccurent user, depending on bike or car vehicle as discount could be different in the future
+                if (ticketDAO.isRecurringUser(vehicleRegNumber)){
+                    switch (parkingSpot.getParkingType()) {
+                        case CAR :
+                            System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a " + (int)(Fare.CAR_DISCOUNT * 100) + "% discount.");
+                            break;
+                        case BIKE :
+                            System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a " + (int)(Fare.BIKE_DISCOUNT * 100) + "% discount.");
+                            break;
+                    }
+                }
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
