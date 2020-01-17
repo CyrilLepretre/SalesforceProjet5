@@ -8,6 +8,7 @@ public class FareCalculatorService {
     /**
      * Calculates and sets the prise of a ticket
      *      30 minutes free (added 01/10/2020)
+     *      Add a discount for recurrent users (added 01/17/2020)
      * @param ticket Ticket of a vehicle
      */
     public void calculateFare(Ticket ticket){
@@ -27,11 +28,11 @@ public class FareCalculatorService {
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
-                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR * (1-ticket.getDiscount()));
                 break;
             }
             case BIKE: {
-                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR * (1-ticket.getDiscount()));
                 break;
             }
             default: throw new IllegalArgumentException("Unkown Parking Type");
