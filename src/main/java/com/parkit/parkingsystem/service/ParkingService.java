@@ -31,7 +31,7 @@ public class ParkingService {
     /**
      * Process of incoming vehicles
      * Feature added on 01/10/2020 : controls if it's a reccurent user in order to display a message for a discount
-     *
+     *                               based on a request wich verify if there is already a ticket in database with OUT_TIME not null
      */
 
     public void processIncomingVehicle() {
@@ -39,24 +39,12 @@ public class ParkingService {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
-
-                // Add a specific message if it's a reccurent user, depending on bike or car vehicle as discount could be different in the future
-                if (ticketDAO.isRecurringUser(vehicleRegNumber)){
-                    switch (parkingSpot.getParkingType()) {
-                        case CAR :
-                            System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a " + (int)(Fare.CAR_DISCOUNT * 100) + "% discount.");
-                            break;
-                        case BIKE :
-                            System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a " + (int)(Fare.BIKE_DISCOUNT * 100) + "% discount.");
-                            break;
-                    }
-                }
+                Ticket ticket = new Ticket();
+                this.discountProcess(parkingSpot.getParkingType(), ticket, true, ticketDAO.isRecurringUser(vehicleRegNumber));
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
                 Date inTime = new Date();
-                Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
                 //ticket.setId(ticketID);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
@@ -70,6 +58,31 @@ public class ParkingService {
             }
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
+        }
+    }
+
+    /**
+     * Sets the discount value for recurring users and prints a specif message for incoming vehicles
+     *
+     */
+    private void discountProcess(ParkingType type, Ticket ticket, boolean incoming, boolean recurrentUser){
+        if (recurrentUser) {
+            switch (type) {
+                case CAR:
+                    if (incoming) {
+                        System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a " + (int) (Fare.CAR_DISCOUNT * 100) + "% discount.");
+                    }
+                    ticket.setDiscount(Fare.CAR_DISCOUNT);
+                    break;
+                case BIKE:
+                    if (incoming) {
+                        System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a " + (int) (Fare.BIKE_DISCOUNT * 100) + "% discount.");
+                    }
+                    ticket.setDiscount(Fare.BIKE_DISCOUNT);
+                    break;
+            }
+        }else{
+            ticket.setDiscount(0.0);
         }
     }
 
@@ -116,15 +129,21 @@ public class ParkingService {
         }
     }
 
+    /**
+     * Process of exiting vehicles
+     * Feature added on 01/10/2020 : controls if it's a reccurent user in order to apply a discout, 0 else
+     */
+
     public void processExitingVehicle() {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+            ParkingSpot parkingSpot = ticket.getParkingSpot();
+            this.discountProcess(parkingSpot.getParkingType(), ticket, false, ticketDAO.isRecurringUser(vehicleRegNumber));
             Date outTime = new Date();
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);
             if(ticketDAO.updateTicket(ticket)) {
-                ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
                 parkingSpotDAO.updateParking(parkingSpot);
                 System.out.println("Please pay the parking fare:" + ticket.getPrice());
