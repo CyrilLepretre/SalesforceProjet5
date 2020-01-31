@@ -10,7 +10,10 @@ public class InteractiveShell {
 
   private static final Logger logger = LogManager.getLogger("InteractiveShell");
 
-  public static void loadInterface(){
+  /**
+   * Interface in command line for the app.
+   */
+  public static void loadInterface() {
     logger.info("App initialized!!!");
     System.out.println("Welcome to Parking System!");
 
@@ -20,10 +23,10 @@ public class InteractiveShell {
     TicketDAO ticketDAO = new TicketDAO();
     ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
-    while(continueApp){
+    while (continueApp) {
       loadMenu();
       int option = inputReaderUtil.readSelection();
-      switch(option){
+      switch (option) {
         case 1: {
           parkingService.processIncomingVehicle();
           break;
@@ -37,12 +40,13 @@ public class InteractiveShell {
           continueApp = false;
           break;
         }
-        default: System.out.println("Unsupported option. Please enter a number corresponding to the provided menu");
+        default: System.out.println("Unsupported option. Please enter a number corresponding "
+                + "to the provided menu");
       }
     }
   }
 
-  private static void loadMenu(){
+  private static void loadMenu() {
     System.out.println("Please select an option. Simply enter the number to choose an action");
     System.out.println("1 New Vehicle Entering - Allocate Parking Space");
     System.out.println("2 Vehicle Exiting - Generate Ticket Price");
