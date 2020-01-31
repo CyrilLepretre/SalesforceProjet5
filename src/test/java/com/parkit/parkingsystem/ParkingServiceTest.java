@@ -1,8 +1,8 @@
 package com.parkit.parkingsystem;
 
 import com.parkit.parkingsystem.constants.ParkingType;
-import com.parkit.parkingsystem.dao.ParkingSpotDAO;
-import com.parkit.parkingsystem.dao.TicketDAO;
+import com.parkit.parkingsystem.dao.ParkingSpotDao;
+import com.parkit.parkingsystem.dao.TicketDao;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
@@ -26,9 +26,9 @@ public class ParkingServiceTest {
     @Mock
     private static InputReaderUtil inputReaderUtil;
     @Mock
-    private static ParkingSpotDAO parkingSpotDAO;
+    private static ParkingSpotDao parkingSpotDAO;
     @Mock
-    private static TicketDAO ticketDAO;
+    private static TicketDao ticketDAO;
 
     @BeforeEach
     private void setUpPerTest() {

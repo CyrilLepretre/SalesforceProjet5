@@ -1,7 +1,7 @@
 package com.parkit.parkingsystem.dao;
 
 import com.parkit.parkingsystem.config.DataBaseConfig;
-import com.parkit.parkingsystem.constants.DBConstants;
+import com.parkit.parkingsystem.constants.DbConstants;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ParkingSpotDAO {
+public class ParkingSpotDao {
   private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 
   public DataBaseConfig dataBaseConfig = new DataBaseConfig();
@@ -25,7 +25,7 @@ public class ParkingSpotDAO {
     int result = -1;
     try {
       con = dataBaseConfig.getConnection();
-      PreparedStatement ps = con.prepareStatement(DBConstants.GET_NEXT_PARKING_SPOT);
+      PreparedStatement ps = con.prepareStatement(DbConstants.GET_NEXT_PARKING_SPOT);
       ps.setString(1, parkingType.toString());
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
@@ -51,7 +51,7 @@ public class ParkingSpotDAO {
     Connection con = null;
     try {
       con = dataBaseConfig.getConnection();
-      PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
+      PreparedStatement ps = con.prepareStatement(DbConstants.UPDATE_PARKING_SPOT);
       ps.setBoolean(1, parkingSpot.isAvailable());
       ps.setInt(2, parkingSpot.getId());
       int updateRowCount = ps.executeUpdate();

@@ -1,7 +1,7 @@
 package com.parkit.parkingsystem.dao;
 
 import com.parkit.parkingsystem.config.DataBaseConfig;
-import com.parkit.parkingsystem.constants.DBConstants;
+import com.parkit.parkingsystem.constants.DbConstants;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TicketDAO {
+public class TicketDao {
 
   private static final Logger logger = LogManager.getLogger("TicketDAO");
 
@@ -28,7 +28,7 @@ public class TicketDAO {
     Connection con = null;
     try {
       con = dataBaseConfig.getConnection();
-      PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET);
+      PreparedStatement ps = con.prepareStatement(DbConstants.SAVE_TICKET);
       //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
       //ps.setInt(1,ticket.getId());
       ps.setInt(1,ticket.getParkingSpot().getId());
@@ -57,7 +57,7 @@ public class TicketDAO {
     Ticket ticket = null;
     try {
       con = dataBaseConfig.getConnection();
-      PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);
+      PreparedStatement ps = con.prepareStatement(DbConstants.GET_TICKET);
       //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
       ps.setString(1,vehicleRegNumber);
       ResultSet rs = ps.executeQuery();
@@ -92,7 +92,7 @@ public class TicketDAO {
     Connection con = null;
     try {
       con = dataBaseConfig.getConnection();
-      PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
+      PreparedStatement ps = con.prepareStatement(DbConstants.UPDATE_TICKET);
       ps.setDouble(1, ticket.getPrice());
       ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
       ps.setInt(3,ticket.getId());
@@ -118,7 +118,7 @@ public class TicketDAO {
     int numberTicketsVehicle = 0;
     try {
       con = dataBaseConfig.getConnection();
-      PreparedStatement ps = con.prepareStatement(DBConstants.CHECK_RECURRING_USER);
+      PreparedStatement ps = con.prepareStatement(DbConstants.CHECK_RECURRING_USER);
       ps.setString(1,vehicleRegNumber);
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
