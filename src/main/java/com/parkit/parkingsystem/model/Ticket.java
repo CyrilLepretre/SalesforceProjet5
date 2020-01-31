@@ -1,11 +1,10 @@
 package com.parkit.parkingsystem.model;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
  * <b>Ticket describes the ticket object</b>
- * <p>
+ *
  * A ticket contains :
  * <ul>
  *     <li>An id</li>
@@ -16,7 +15,7 @@ import java.util.Date;
  *     <li>The Date when the vehicle exits</li>
  *     <li>The discount applied (for reccuring users) - Feature added 01-10-2020</li>
  * </ul>
- * </p>
+ *
  *
  * @author Cyril Lepretre
  * @version 2.0

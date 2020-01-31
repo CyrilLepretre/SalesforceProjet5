@@ -75,7 +75,8 @@ public class ParkingDataBaseIT {
         }
         parkingService.processExitingVehicle();
         Ticket ticketFromDB = ticketDAO.getTicket(this.getVehicleRegistrationNumber(inputReaderUtil));
-        assertNotEquals(ticketFromDB.getPrice(), 0);
+        // Now, the price must be 0.0 as we offer 30 minutes free
+        assertEquals(ticketFromDB.getPrice(), 0.0);
         assertTrue(ticketFromDB.getInTime().before(ticketFromDB.getOutTime()));
     }
 
