@@ -7,6 +7,12 @@ public class ParkingSpot {
   private ParkingType parkingType;
   private boolean isAvailable;
 
+  /**
+   * Constructor.
+   * @param number corresponding to the place
+   * @param parkingType represents the kinf of parking (for a car, a bike ...)
+   * @param isAvailable true if the spot is available, false else
+   */
   public ParkingSpot(int number, ParkingType parkingType, boolean isAvailable) {
     this.number = number;
     this.parkingType = parkingType;
@@ -17,17 +23,17 @@ public class ParkingSpot {
     return number;
   }
 
-  public void setId(int number) {
+  /*public void setId(int number) {
     this.number = number;
-  }
+  }*/
 
   public ParkingType getParkingType() {
     return parkingType;
   }
 
-  public void setParkingType(ParkingType parkingType) {
+  /*public void setParkingType(ParkingType parkingType) {
     this.parkingType = parkingType;
-  }
+  }*/
 
   public boolean isAvailable() {
     return isAvailable;
@@ -39,8 +45,12 @@ public class ParkingSpot {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     ParkingSpot that = (ParkingSpot) o;
     return number == that.number;
   }
