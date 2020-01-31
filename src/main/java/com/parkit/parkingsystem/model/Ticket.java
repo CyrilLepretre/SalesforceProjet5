@@ -3,8 +3,7 @@ package com.parkit.parkingsystem.model;
 import java.util.Date;
 
 /**
- * <b>Ticket describes the ticket object</b>
- *
+ * <b>Ticket describes the ticket object.</b>
  * A ticket contains :
  * <ul>
  *     <li>An id</li>
@@ -78,7 +77,12 @@ public class Ticket {
     this.outTime = outTime;
   }
 
-  public double getDiscount() { return discount; }
+  public double getDiscount() {
+    return discount;
+  }
 
-  public void setDiscount(double discount) {this.discount = discount;}
+  public void setDiscount(double discount) {
+    this.discount = discount;
+  }
+
 }
