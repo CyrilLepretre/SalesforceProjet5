@@ -90,4 +90,31 @@ public class ParkingDataBaseIT {
         return vehicleRegistrationNumber;
     }
 
+    @Test
+    public void testParkingLotExitTwice(){
+        testParkingACar();
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        parkingService.processExitingVehicle();
+        Ticket ticketFromDBfirstTime = ticketDAO.getTicket(this.getVehicleRegistrationNumber(inputReaderUtil));
+
+        // Then the same vehicle comes again
+        testParkingACar();
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        parkingService.processExitingVehicle();
+        Ticket ticketFromDBSecondTime = ticketDAO.getTicket(this.getVehicleRegistrationNumber(inputReaderUtil));
+
+        // Ve verify that the 2 tickets updated are different
+        assertNotEquals(ticketFromDBfirstTime.getId(), ticketFromDBSecondTime.getId());
+    }
+
 }
