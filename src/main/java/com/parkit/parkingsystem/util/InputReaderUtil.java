@@ -6,7 +6,8 @@ import org.apache.logging.log4j.Logger;
 
 public class InputReaderUtil {
 
-  private static Scanner scan = new Scanner(System.in);
+  // charsetName "UTF-8" added to fix DM_DEFAULT_ENCODING bug fouund in FindBugs
+  private static Scanner scan = new Scanner(System.in, "UTF-8");
   private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
   /**
