@@ -275,8 +275,8 @@
                 <version>3.0.5</version>
                 <configuration>
                     <failOnError>false</failOnError>
-                    <effort>Low</effort>
-                    <threshold>Medium</threshold>
+                    <effort>Max</effort>
+                    <threshold>High</threshold>
                     <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
                 </configuration>
                 <reportSets>
